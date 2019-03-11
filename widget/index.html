@@ -9,48 +9,41 @@
     <link href=./static/css/app.65d485a03ad1201c70688a794cf48d0d.css rel=stylesheet>
 </head>
 <body>
-    <div id="wrap">
-        <div id="header">
-            <h1>APICloud</h1>
-        </div>
-        <div id="main">
-                
-        </div>
-        <div id="footer">
-            <h5>Copyright &copy;<span id="year"></span> </h5>
-        </div>
+    <div id="app">
     </div>
 </body>
 <script type="text/javascript" src="./script/api.js"></script>
 <script type=text/javascript src=./static/js/manifest.3ad1d5771e9b13dbdad2.js> </script> <script type=text/javascript
     src=./static/js/vendor.05805307bb4192dde916.js> </script> <script type=text/javascript src=./static/js/app.eef3dd1594d8cde79a8a.js>
     </script>
-<script type="text/javascript">
-    apiready = function(){
-		console.log("Hello APICloud");
 
-        var header = $api.byId('header');
-        //适配iOS 7+，Android 4.4+状态栏
-        $api.fixStatusBar(header);
-
-        var headerPos = $api.offset(header);
-        var main = $api.byId('main');
-        var mainPos = $api.offset(main);
-        api.openFrame({
-            name: 'main',
-            url: 'html/main.html',
-            bounces: true,
-            rect: {
-                x: 0,
-                y: headerPos.h,
-                w: 'auto',
-                h: mainPos.h
-            }
-        });
-
-        var year = $api.byId('year');
-        year.innerHTML = new Date().getFullYear();
-
+<script>
+    //苹果手机适配
+    var ratio = window.devicePixelRatio || 1;
+    var screen = {
+        width : window.screen.width * ratio,
+        height : window.screen.height * ratio
     };
+    if (  screen.width == 1125 && screen.height === 2436){
+        document.getElementById("xbzm-body").classList.add("has-bottombar");
+    }
+    document.body.addEventListener('touchstart', function () {});
+    //获取启动页面路径参数
+    apiready = function() {
+        api.addEventListener({
+            name: 'appintent'
+        }, function(ret, err) {
+            var appParam = ret.appParam;
+           alert(JSON.stringify(appParam.stcode)+'index.html')
+            sessionStorage.setItem('xbzm-appParam',JSON.stringify(appParam.stcode));
+        });
+    }
+//    function apiready() {
+//        api.addEventListener({
+//            name:'appintent'
+//        },function(ret,err){
+//            alert(JSON.stringify(ret.appParam));
+//        });
+//    }
 </script>
 </html>
